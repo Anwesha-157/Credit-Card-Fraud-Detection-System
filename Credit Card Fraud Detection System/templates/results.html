@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fraud Detection Results</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5 custom-container">
+    <h2 class="text-center mb-4 title-heading">📊 Credit Card Fraud Detection – Detailed Results</h2>
+
+    {% if raw_preview %}
+    <!-- Step 1: Raw Data Preview -->
+    <div class="card mb-4">
+      <div class="card-header">📄 Step 1: Raw Data Preview</div>
+      <div class="card-body">
+        {{ raw_preview | safe }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if preprocessing_summary %}
+    <!-- Step 2: Preprocessing Summary -->
+    <div class="card mb-4">
+      <div class="card-header">🧹 Step 2: Preprocessing Summary</div>
+      <div class="card-body">
+        <pre>{{ preprocessing_summary }}</pre>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if eda_summary %}
+    <!-- Step 3: Exploratory Data Analysis -->
+    <div class="card mb-4">
+      <div class="card-header">📊 Step 3: Exploratory Data Analysis (EDA)</div>
+      <div class="card-body">
+        <pre>{{ eda_summary }}</pre>
+        {% if eda_plot %}
+          <img src="{{ url_for('static', filename=eda_plot) }}" class="img-fluid mt-3 mb-3" alt="EDA Histogram">
+        {% endif %}
+        {% if fraud_plot %}
+          <img src="{{ url_for('static', filename=fraud_plot) }}" class="img-fluid mt-3" alt="Top Fraud Agencies">
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Step 4: Fraud Detection Summary -->
+    <div class="card mb-4">
+      <div class="card-header">🚨 Step 4: Fraud Detection Summary</div>
+      <div class="card-body">
+        <p><strong>Total Transactions:</strong> {{ total_transactions }}</p>
+        <p><strong>Fraudulent Transactions Detected:</strong> {{ fraud_count }}</p>
+        <p><strong>Fraud Percentage:</strong> {{ fraud_percentage }}%</p>
+      </div>
+    </div>
+
+    {% if table %}
+    <!-- Step 5: Fraudulent Transactions Table -->
+    <div class="card mb-4">
+      <div class="card-header">📋 Step 5: Detected Fraudulent Transactions</div>
+      <div class="card-body">
+        <div class="table-responsive">
+          {{ table | safe }}
+        </div>
+        <a href="/download" class="btn btn-success mt-3">⬇️ Download Fraud Report</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <footer class="footer-text text-center mt-5">© 2025 M.Tech Mini Project – Credit Card Fraud Detection</footer>
+</body>
+</html>
